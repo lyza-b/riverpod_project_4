@@ -41,9 +41,9 @@ final tickerProvider = StreamProvider(
   ),
 );
 
-// final nameProvider = StreamProvider((ref) {
-//    final a = ref.watch(tickerProvider).map(data: data, error: error, loading: loading)
-// });
+final nameProvider = StreamProvider((ref) {
+   final a = ref.watch(tickerProvider).map(data: data, error: error, loading: loading)
+});
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
