@@ -41,7 +41,7 @@ final tickerProvider = StreamProvider(
   ),
 );
 
-final nameProvider = StreamProvider((ref) {
+final namesProvider = StreamProvider((ref) {
    final a = ref.watch(tickerProvider).map(data: data, error: error, loading: loading)
 });
 
