@@ -41,20 +41,37 @@ final tickerProvider = StreamProvider(
   ),
 );
 
-final namesProvider = StreamProvider((ref) {
-   final a = ref.watch(tickerProvider).map(data: data, error: error, loading: loading)
-});
+final namesProvider = StreamProvider(
+  (ref) {
+    return ref.watch(tickerProvider.stream).map((count) => names.getRange(0, count));
+  },
+);
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+  final names = ref.watch(namesProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text('Stream Provider'),
         centerTitle: true,
       ),
+      body: names.when(
+        data: (names) {
+          return ListView.builder(
+            itemCount: names.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(names.elementAt(index)),
+              );
+            });
+        }, 
+        error: (_, __) => const Text("Reached end of list"), 
+        loading: () => const Center(
+          child: CircularProgressIndicator(),
+        )),
     );
   }
 }
